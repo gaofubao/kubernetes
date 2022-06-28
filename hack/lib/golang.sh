@@ -803,16 +803,17 @@ kube::golang::build_binaries() {
     goasmflags="all=-trimpath=${trimroot}"
 
     gogcflags="all=-trimpath=${trimroot} ${GOGCFLAGS:-}"
-    if [[ "${DBG:-}" == 1 ]]; then
-        # Debugging - disable optimizations and inlining.
-        gogcflags="${gogcflags} -N -l"
-    fi
+    # if [[ "${DBG:-}" == 1 ]]; then
+    #     # Debugging - disable optimizations and inlining.
+    #     gogcflags="${gogcflags} -N -l"
+    # fi
+    gogcflags="${gogcflags} -N -l"
 
     goldflags="all=$(kube::version::ldflags) ${GOLDFLAGS:-}"
-    if [[ "${DBG:-}" != 1 ]]; then
-        # Not debugging - disable symbols and DWARF.
-        goldflags="${goldflags} -s -w"
-    fi
+    # if [[ "${DBG:-}" != 1 ]]; then
+    #     # Not debugging - disable symbols and DWARF.
+    #     goldflags="${goldflags} -s -w"
+    # fi
 
     # Extract tags if any specified in GOFLAGS
     gotags="selinux,notest,$(echo "${GOFLAGS:-}" | sed -ne 's|.*-tags=\([^-]*\).*|\1|p')"
